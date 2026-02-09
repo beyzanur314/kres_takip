@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>OGM</title>
+</head>
+<h:body>
+    <ui:composition template="../templates/template.xhtml">
+        <ui:define name="title">Öğrenci</ui:define>
+        <ui:define name="content">
+            <h:form id="form">
+                <p:growl id="message" showDetail="true" life="3000"
+                         autoUpdate="true"/>
+                <p:panel id="panel2">
+                    <f:facet name="header">
+                        Kayıtlar
+                        <p:commandButton
+                                action="#{ogrenciController.fetchAll()}"
+                                icon="pi pi-refresh" update=":form:dtOgrenci"
+                                process="@this"/>
+                    </f:facet>
+
+                    <p:dataTable id="dtOgrenci"
+                                 var="ogrenci"
+                                 value="#{ogrenciController.ogrenciList}"
+                                 widgetVar="ogrenci1"
+                                 filteredValue="#{ogrenciController.filteredOgrenciList}"
+                                 globalFilterFunction="#{ogrenciController.globalFilterFunction}"
+                                 emptyMessage="Kayıt Bulunamamıştır"
+                                 editable="true"
+                                 tableStyle="table-layout: auto;"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rows="10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+                        <p:ajax event="rowEdit"
+                                listener="#{ogrenciController.onRowEdit}"
+                                update=":form:message,dtOgrenci"/>
+                        <p:ajax event="rowEditCancel"
+                                listener="#{ogrenciController.onRowCancel}"
+                                update=":form:message"/>
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <h:outputText value="Ara:"/>
+                                <p:inputText id="globalFilter"
+                                             onkeyup="PF('ogrenci1').filter()"
+                                             style="..."
+                                             placeholder="Kelime giriniz..."/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column headerText="Kayıt No" width="150px"
+                                  sortBy="#{ogrenci.kayitNo}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.kayitNo}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText
+                                            value="#{ogrenci.kayitNo}"
+                                            style="width:90%" maxlength="50"
+                                            required="true"
+                                            requiredMessage="Tc zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="T.C" width="150px"
+                                  sortBy="#{ogrenci.tc}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.tc}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText
+                                            value="#{ogrenci.tc}"
+                                            style="width:90%" maxlength="50"
+                                            required="true"
+                                            requiredMessage="Tc zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Ad" width="200px"
+                                  sortBy="#{ogrenci.ad}"
+                                  styleClass="col-md-2">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.ad}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{ogrenci.ad}"
+                                                 style="width:90%"
+                                                 maxlength="50" required="true"
+                                                 requiredMessage="Ad zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Soyad"
+                                  style="width: auto;"
+                                  sortBy="#{ogrenci.soyad}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.soyad}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText
+                                            value="#{ogrenci.soyad}"
+                                            style="width:90%" maxlength="50"
+                                            required="true"
+                                            requiredMessage="Soyad zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Cinsiyet"
+                                  sortBy="#{ogrenci.cinsiyet}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.cinsiyet}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{ogrenci.cinsiyet}"
+                                                 style="width:90%"
+                                                 maxlength="50" required="true"
+                                                 requiredMessage="Cinsiyet zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Adres" width="90px"
+                                  sortBy="#{ogrenci.adres}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.adres}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{ogrenci.adres}"
+                                                 style="width:90%"
+                                                 maxlength="50"
+                                                 required="true"
+                                                 requiredMessage="Telefon No zorunludur."
+                                    />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Telefon No"
+                                  sortBy="#{ogrenci.telefon}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.telefon}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText
+                                            value="#{ogrenci.telefon}"
+                                            style="width:90%" maxlength="50"
+                                            required="false"
+                                            requiredMessage="Telefon No zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Yetki"
+                                  sortBy="#{ogrenci.yetki}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.yetki}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText
+                                            value="#{ogrenci.yetki}"
+                                            style="width:90%" maxlength="50"
+                                            required="false"
+                                            requiredMessage="Yetki zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Kayıt Tarihi"
+                                  style="width: auto;"
+                                  sortBy="#{ogrenci.kayitTarihi}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText
+                                            value="#{ogrenci.kayitTarihi}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar
+                                            value="#{ogrenci.kayitTarihi}"
+                                            required="true"
+                                            pattern="dd.MM.yyyy HH:mm"
+                                            locale="tr"
+                                            navigator="true"
+                                            requiredMessage="Kayıt Tarihi Zorunludur."/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column
+                                headerText="Detay"
+                                exportable="false"
+                                width="20">
+                            <p:rowEditor />
+                        </p:column>
+
+                        <p:column headerText="Sil"
+                                  exportable="false"
+                                  >
+                            <p:commandButton id="delete" value="Sil"
+                                             update="@form"
+                                             process="@this"
+                                             icon="fa fa-trash"
+                                             style="color: red"
+                                             action="#{ogrenciController.delete(ogrenci)}">
+                                <p:confirm header="Onaylama"
+                                           message="Bu satırı silmek istediğinize emin misiniz?"
+                                           icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade"
+                                             hideEffect="fade">
+                                <p:commandButton value="Evet" type="button"
+                                                 styleClass="ui-confirmdialog-yes"
+                                                 icon="pi pi-check"/>
+                                <p:commandButton value="Hayır" type="button"
+                                                 styleClass="ui-confirmdialog-no"
+                                                 icon="pi pi-times"/>
+                            </p:confirmDialog>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <br/>
+                <p:panel>
+                    <f:facet name="header">
+                        Yeni Kayıt
+                        <p:commandButton
+                                action="#{ogrenciController.refresh()}"
+                                icon="pi pi-refresh" update="@form"
+                                process="@this"/>
+                    </f:facet>
+
+                    <div class="p-3">
+                        <div class="mt-2 row">
+                            <div class="col-md-2">
+                                <p:outputLabel value="Kayıt Tarihi:"/>
+                            </div>
+                            <div class="col-md-2">
+                                <p:calendar id="kayitTarihi"
+                                            value="#{gidenTaahutluController.gidenTaahutlu.kayitTarihi}"
+                                            required="true"
+                                            pattern="dd.MM.yyyy HH:mm"
+                                            locale="tr"
+                                            navigator="true"
+                                            requiredMessage="Kayıt Tarihi Zorunludur."/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:message for="kayitTarihi"/>
+                            </div>
+                        </div>
+                        <div class="mt-2 row">
+                            <div class="col-md-2">
+                                <p:outputLabel value="Evrak Sayısı:"/>
+                            </div>
+                            <div class="col-md-2">
+                                <p:inputText id="evrakNo"
+                                             value="#{gidenTaahutluController.gidenTaahutlu.evrakNo}"
+                                             required="true"
+                                             requiredMessage="Evrak no zorunludur."/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:message for="evrakNo"/>
+                            </div>
+                        </div>
+                        <div class="mt-2 row">
+                            <div class="col-md-2">
+                                <p:outputLabel value="Gönderildiği Yer:"/>
+                            </div>
+                            <div class="col-md-2">
+                                <p:inputText id="gonYer"
+                                             value="#{gidenTaahutluController.gidenTaahutlu.gonYer}"
+                                             required="true"
+                                             requiredMessage="Gönderen yer zorunludur."/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:message for="gonYer"/>
+                            </div>
+                        </div>
+                        <div class="mt-2 row">
+                            <div class="col-md-2">
+                                <p:outputLabel value="Gittiği İl:"/>
+                            </div>
+                            <div class="col-md-2">
+                                <p:inputText id="gittigiYer"
+                                             value="#{gidenTaahutluController.gidenTaahutlu.gittigiYer}"
+                                             required="true"
+                                             requiredMessage="Gittiği yer zorunludur."/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:message for="gittigiYer"/>
+                            </div>
+                        </div>
+                        <div class="mt-2 row">
+                            <div class="col-md-2">
+                                <p:outputLabel value="Ağırlık(Gram):"/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:inputText id="kilosu"
+                                             value="#{gidenTaahutluController.gidenTaahutlu.kilosu}"
+                                             required="true"
+                                             requiredMessage="Ağırlık zorunludur."/>
+                            </div>
+
+                            <div class="col-md-4">
+                                <p:message for="kilosu"/>
+                            </div>
+                        </div>
+
+                        <div class="mt-2 row">
+                            <div class="col-md-2">
+                                <p:outputLabel  value="Tutar:" />
+                            </div>
+                            <div class="col-md-2">
+                                <p:inputText id="tutar"
+                                             value="#{gidenTaahutluController.gidenTaahutlu.tutar}"
+                                             disabled="#{!gidenTaahutluController.chkBoxChecked}"
+                                             required="true"
+                                             requiredMessage="Tutar zorunludur."/>
+                            </div>
+                            <div class="col-md-3">
+                                <p:message for="tutar"/>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <p:outputLabel value="Barkod:"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <p:inputTextarea id="barkod" rows="5"
+                                                     cols="30"
+                                                     counter="display"
+                                                     maxlength="255"
+                                                     counterTemplate="{0} karakter kaldı."
+                                                     autoResize="false"
+                                                     value="#{gidenTaahutluController.gidenTaahutlu.barkod}"
+                                                     required="false"
+                                                     requiredMessage="Barkod zorunludur."/>
+                                </div>
+                                <div class="offset-1 col-md-3">
+                                    <p:message for="barkod"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="offset-2">
+                                    <h:outputText id="display"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 row">
+                            <div class="offset-2">
+                                <p:commandButton
+                                        value="Kaydet"
+                                        action="#{gidenTaahutluController.save()}"
+                                        icon="pi pi-save"
+                                        update="@form"
+                                        process="@parent"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

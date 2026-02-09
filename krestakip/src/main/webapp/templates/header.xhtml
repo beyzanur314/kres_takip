@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<ui:composition>
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-auto">
+                <h:graphicImage url="../resources/images/logo.png"
+                                styleClass="custom-banner-logo"/>
+            </div>
+            <div class="col-auto">
+                <h5>T.C. Tarım ve Orman Bakanlığı
+                    <br/>Orman Genel Müdürlüğü
+                    <br/>Kreş Takip Uygulaması</h5>
+            </div>
+        </div>
+    </div>
+    <h:form>
+        <p:menubar styleClass="custom-navbar-background">
+            <p:menuitem value="Anasayfa" icon="pi pi-home"
+                        url="/index.xhtml" styleClass="mx-3"/>
+            <p:menuitem value="Öğrenci" icon="pi pi-plus"
+                        url="/krestakip/ogrenci.xhtml" styleClass="me-3"/>
+        </p:menubar>
+    </h:form>
+</ui:composition>
+</body>
+</html>
